@@ -1,4 +1,6 @@
 using FinalProject.Persistence;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,23 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddRepositoryUnitOfWork();
 builder.Services.AddEfCore(builder.Configuration);
+
+builder.Services.AddSession(options =>
+{
+	options.IdleTimeout = TimeSpan.FromHours(1);
+	options.Cookie.HttpOnly = true;
+});
+
+builder.Services.AddCustomIdentity();
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+				.AddCookie(option =>
+				{
+					option.LoginPath = "/account/login";
+					option.AccessDeniedPath = "/Account/AccessDenied";
+					option.Cookie.HttpOnly = true;
+					option.ExpireTimeSpan = TimeSpan.FromHours(1);
+				});
 
 var app = builder.Build();
 
@@ -20,9 +39,13 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+//use middleware for session
+app.UseSession();
 
 app.UseRouting();
 
+//Authen luon dung truoc author
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(

@@ -1,10 +1,11 @@
 ﻿using FinalProject.Domain.Entities;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 
 namespace FinalProject.Persistence
 {
-    public class ApplicationDbContext : DbContext
+    public class ApplicationDbContext : IdentityDbContext
 	{
 
 		public DbSet<Category> Categories { get; set; }
