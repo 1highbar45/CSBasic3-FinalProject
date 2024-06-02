@@ -53,9 +53,8 @@
                                             <td>@item.UserName</td>
                                             <td>@item.Email</td>
                                             <td>
-                                                <a class="btn default btn-xs purple" href="/" title="Update"> <span class="glyphicon glyphicon-edit"></span></a>
-
-                                                <a class="btn default btn-xs red" href="/" title="Delete">  <span class="glyphicon glyphicon-trash"></span></a>
+                                                <a class="btn default btn-xs purple" href="/account/edituser?Id=@item.Id" title="Update"> <span class="glyphicon glyphicon-edit"></span></a>
+                                                <a asp-action="DeleteUser" asp-controller="Account" asp-route-id="@item.Id" class="btn default btn-xs red" title="Delete">  <span class="glyphicon glyphicon-trash"></span></a>
                                             </td>
 
                                         </tr>

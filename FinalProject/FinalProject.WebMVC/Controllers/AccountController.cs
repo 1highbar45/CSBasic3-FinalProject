@@ -1,9 +1,11 @@
 ﻿using Application.Accounts;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
 namespace DemoApp.WebMVC.Controllers
 {
+	[Authorize]
 	public class AccountController : Controller
 	{
 		private readonly UserManager<IdentityUser> _userManager;
@@ -19,12 +21,16 @@ namespace DemoApp.WebMVC.Controllers
 			_roleManager = roleManager;
 			_signInManager = signInManager;
 		}
-		public IActionResult Login()
+
+		[AllowAnonymous]
+		public IActionResult Login(string ReturnUrl = "")
 		{
 			_signInManager.SignOutAsync();
+			TempData["ReturnUrl"] = ReturnUrl;
 			return View();
 		}
 
+		[AllowAnonymous]
 		[ValidateAntiForgeryToken]
 		[HttpPost]
 		public async Task<IActionResult> Login(LoginViewModel model)
@@ -39,7 +45,16 @@ namespace DemoApp.WebMVC.Controllers
 				var result = await _signInManager.PasswordSignInAsync(user, model.Password, model.RememberMe, false);
 				if (result.Succeeded)
 				{
-					return Redirect("/adminproduct/index");
+					var returnUrl = TempData["ReturnUrl"] as string;
+					if (!string.IsNullOrEmpty(returnUrl))
+					{
+						return Redirect(returnUrl);
+					}
+					else
+					{
+						return Redirect("/account/users");
+					}
+
 				}
 				ModelState.AddModelError(string.Empty, "password is not correct!");
 				return View(model);
@@ -59,11 +74,14 @@ namespace DemoApp.WebMVC.Controllers
 
 		#region Role
 
+		[Authorize(Roles = "admin")]
 		public IActionResult Roles()
 		{
 			var roles = _roleManager.Roles.ToList();
 			return View(roles);
 		}
+
+		[Authorize(Roles = "admin")]
 		public IActionResult CreateRole()
 		{
 			return View();
@@ -94,11 +112,14 @@ namespace DemoApp.WebMVC.Controllers
 
 		#region User
 
+		[Authorize(Roles = "admin")]
 		public IActionResult Users()
 		{
 			var users = _userManager.Users.ToList();
 			return View(users);
 		}
+
+		[Authorize(Roles = "admin")]
 		public IActionResult CreateUser()
 		{
 			var roles = _roleManager.Roles.ToList();
@@ -106,7 +127,7 @@ namespace DemoApp.WebMVC.Controllers
 			return View();
 		}
 
-		[HttpPost]
+        [HttpPost]
 		[ValidateAntiForgeryToken]
 		public async Task<IActionResult> CreateUser(CreateUserViewModel model)
 		{
@@ -139,8 +160,58 @@ namespace DemoApp.WebMVC.Controllers
 			ModelState.AddModelError(string.Empty, GetErrorMessage(userResult));
 			return View(model);
 		}
-		#endregion
-		private string GetErrorMessage(IdentityResult result)
+
+        [Authorize(Roles = "admin")]
+        public async Task<IActionResult> EditUser(string Id)
+        {
+            var user = await _userManager.FindByIdAsync(Id);
+            if (user != null)	
+            {
+				var editUserModel = new EditUserViewModel
+				{
+					Id = user.Id,
+					UserName = user.UserName,
+					Email = user.Email,
+				};
+                return View(editUserModel);
+            }
+            return View(null);
+        }
+
+		[HttpPost]
+		public async Task<IActionResult> EditUser(EditUserViewModel editUserViewModel)
+		{
+			var user = await _userManager.FindByIdAsync(editUserViewModel.Id);
+			if (user != null)
+			{
+				user.UserName = editUserViewModel.UserName;
+				user.Email = editUserViewModel.Email;
+
+				var userResult = await _userManager.UpdateAsync(user);
+				if (userResult.Succeeded)
+				{
+					return Redirect("/Account/users");
+				}
+			}
+			return View(null);
+		}
+
+		public async Task<IActionResult> DeleteUser(string Id)
+        {
+			var user = await _userManager.FindByIdAsync(Id);
+			if(user!= null)
+			{
+				var userResult = await _userManager.DeleteAsync(user);
+				if(userResult.Succeeded)
+				{
+                    return Redirect("/Account/users");
+                }
+            }
+			return View();
+        }
+
+        #endregion
+        private string GetErrorMessage(IdentityResult result)
 		{
 			if (result.Errors.Any())
 			{

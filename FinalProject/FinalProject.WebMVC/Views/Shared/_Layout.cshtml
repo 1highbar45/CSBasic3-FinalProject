@@ -46,7 +46,14 @@
                             <li class="wishlist"><a href="#"><span>Wishlist</span></a></li>
                             <li class="header_cart hidden-xs"><a href="#"><span>My Cart</span></a></li>
                             <li class="check"><a href="#"><span>Checkout</span></a></li>
-                            <li class="login"><a href="#"><span>Login</span></a></li>
+                            @if (!String.IsNullOrEmpty(@User.Identity.Name))
+                            {
+                                <li><a href="#"><span>@User.Identity.Name</span></a></li>
+
+                            }else
+                            {
+                                <li class="login"><a href="#"><span>Login</span></a></li>
+                            }
                         </ul>
                     </div>
                     <!-- /.cnt-account -->
