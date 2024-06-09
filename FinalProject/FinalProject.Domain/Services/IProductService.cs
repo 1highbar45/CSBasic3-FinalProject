@@ -7,5 +7,7 @@ namespace FinalProject.Domain.Services
     {
         Task<GenericData<ProductViewModel>> GetProducts(ProductPage model);
         Task<ProductDetailViewModel> GetProductDetail(Guid productId);
+        Task CreateProduct(ProductCreateViewModel model);
+        Task DeleteProduct(Guid productId);
     }
 }

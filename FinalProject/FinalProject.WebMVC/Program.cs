@@ -1,4 +1,5 @@
 using FinalProject.Persistence;
+using FinalProject.Application;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 
@@ -9,6 +10,7 @@ builder.Services.AddControllersWithViews().AddRazorRuntimeCompilation();
 
 builder.Services.AddRepositoryUnitOfWork();
 builder.Services.AddEfCore(builder.Configuration);
+builder.Services.AddApplicationServices();
 
 builder.Services.AddSession(options =>
 {

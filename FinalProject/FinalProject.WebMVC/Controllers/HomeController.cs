@@ -18,7 +18,12 @@ namespace FinalProject.WebMVC.Controllers
 			return View();
 		}
 
-		public IActionResult Privacy()
+        public IActionResult Shop()
+        {
+            return View();
+        }
+
+        public IActionResult Privacy()
 		{
 			return View();
 		}

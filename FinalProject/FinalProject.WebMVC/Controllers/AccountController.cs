@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 
-namespace DemoApp.WebMVC.Controllers
+namespace FinalProject.WebMVC.Controllers
 {
 	[Authorize]
 	public class AccountController : Controller
