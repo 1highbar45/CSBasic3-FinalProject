@@ -1,17 +1,16 @@
 ﻿var homeconfig = {
-    pageSize: 6, // số lượng bản ghi mỗi page
+    pageSize: 8, // số lượng bản ghi mỗi page
     pageIndex: 1 // trang đầu tiên
 }
 
 var dataTable =
 {
     loadData: function (changePageSize) {
-
+        
         var total = 0;
         var model = new Object();
         model.PageSize = homeconfig.pageSize
         model.PageIndex = homeconfig.pageIndex;
-
         //optional cho phép vừa phân trang vừa lọc điều kiện
         model.CategoryId = $(".input-radio input[type='radio']:checked").val()
         model.KeyWord = $('#keyword').val()

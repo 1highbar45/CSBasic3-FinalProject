@@ -22,12 +22,12 @@ namespace FinalProject.WebMVC.Controllers
 
 		public IActionResult Index()
 		{
-            var model = new ProductListingPageModel();
-            model.Categories = _categoryService.GetCategories();
-            model.SelectPageSize = new List<int> { 6, 9, 18, 27, 36 };
-            model.OrderBys = EnumHelper.GetList(typeof(SortEnum));
-            return View(model);
-        }
+			var model = new ProductListingPageModel();
+			model.Categories = _categoryService.GetCategories();
+			model.SelectPageSize = new List<int> { 8, 16, 32 };
+			model.OrderBys = EnumHelper.GetList(typeof(SortEnum));
+			return View(model);
+		}
 
         public IActionResult Privacy()
 		{

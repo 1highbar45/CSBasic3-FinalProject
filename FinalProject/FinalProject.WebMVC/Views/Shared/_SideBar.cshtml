@@ -1,0 +1,45 @@
+﻿@using FinalProject.Domain.Models.Categories;
+
+@model List<CategoryViewModel>
+
+<!-- ================================== TOP NAVIGATION : END ================================== -->
+<div class="sidebar-module-container">
+    <div class="sidebar-filter">
+        <!-- ============================================== SIDEBAR CATEGORY ============================================== -->
+        <div class="sidebar-widget">
+            <h3 class="section-title">Shop by</h3>
+            <div class="widget-header">
+                <h4 class="widget-title">Category</h4>
+            </div>
+            <div class="sidebar-widget-body">
+				<div class="checkbox-filter">
+					<div class="input-radio">
+						<input value="" name="category" type="radio" id="category-all">
+						<label for="category-all">
+							<span></span>
+							All
+							<small>(@Model.Sum(s => s.ProductCount)</small>
+						</label>
+					</div>
+					@foreach (var item in Model)
+					{
+						<div class="input-radio">
+							<input value="@item.Id" name="category" type="radio" id="category-@item.Id">
+							<label for="category-@item.Id">
+								<span></span>
+								@item.Name
+								<small>(@item.ProductCount)</small>
+							</label>
+						</div>
+					}
+				</div>
+            </div>
+            <!-- /.sidebar-widget-body -->
+        </div>
+        <!-- /.sidebar-widget -->
+        <!-- ============================================== SIDEBAR CATEGORY : END ============================================== -->
+
+    </div>
+    <!-- /.sidebar-filter -->
+</div>
+<!-- /.sidebar-module-container -->
