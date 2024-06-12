@@ -10,6 +10,7 @@ namespace FinalProject.Application
         {
             services.AddScoped<IProductService, ProductService>();
             services.AddScoped<ICategoryService, CategoryService>();
-        }
-    }
+			services.AddScoped<IBillService, BillService>();
+		}
+	}
 }

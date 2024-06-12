@@ -1,12 +1,12 @@
 ﻿@using Application.Accounts;
-@model LoginViewModel
+@model RegisterViewModel
 
 <div class="breadcrumb">
 	<div class="container">
 		<div class="breadcrumb-inner">
 			<ul class="list-inline list-unstyled">
 				<li><a href="home.html">Home</a></li>
-				<li class='active'>Login</li>
+				<li class='active'>Register</li>
 			</ul>
 		</div><!-- /.breadcrumb-inner -->
 	</div><!-- /.container -->
@@ -16,36 +16,35 @@
 	<div class="container">
 		<div class="sign-in-page" style="margin: 0 auto; width: 50%; padding: 40px 40px">
 			<div class="row">
-				<!-- Sign-in -->
-				<div class="sign-in">
-					<h4 class="">Sign in</h4>
-					<p class="">Hello, Welcome to your account.</p>
-					<form action="/account/login" method="post" class="register-form outer-top-xs" role="form">
+				<!-- create a new account -->
+				<div class="create-new-account">
+					<h4 class="checkout-subtitle">Create a new account</h4>
+					<p class="text title-tag-line">Create your new account.</p>
+					<form action="/account/register" method="post" class="register-form outer-top-xs" role="form">
 						@Html.AntiForgeryToken()
-						<div asp-validation-summary="All" class="text-danger"></div>
 						<div class="form-group">
-							<label asp-for="Email" class="info-title" for="exampleInputEmail1">Email Address <span>*</span></label>
-							<input asp-for="Email" type="text" class="form-control unicase-form-control text-input" id="exampleInputEmail1">
+							<label asp-for="Email" class="info-title" for="exampleInputEmail2">Email Address <span>*</span></label>
+							<input asp-for="Email" type="text" class="form-control unicase-form-control text-input" id="exampleInputEmail2">
 							<span asp-validation-for="Email" class="text-danger"></span>
 						</div>
 						<div class="form-group">
-							<label asp-for="Password" class="info-title" for="exampleInputPassword1">Password <span>*</span></label>
-							<input asp-for="Password" type="password" class="form-control unicase-form-control text-input" autocomplete="off" id="exampleInputPassword1">
+							<label asp-for="UserName" class="info-title" for="exampleInputEmail1">Name <span>*</span></label>
+							<input asp-for="UserName" type="text" class="form-control unicase-form-control text-input" id="exampleInputEmail1">
+							<span asp-validation-for="UserName" class="text-danger"></span>
+						</div>
+						<div class="form-group">
+							<label asp-for="Password" class="info-title" for="exampleInputEmail1">Password <span>*</span></label>
+							<input asp-for="Password" type="password" class="form-control unicase-form-control text-input" id="exampleInputEmail1">
 							<span asp-validation-for="Password" class="text-danger"></span>
 						</div>
-						<div class="radio outer-xs">
-							<label asp-for="RememberMe">
-								<input asp-for="RememberMe" type="checkbox">Remember me!
-							</label>
-							<a href="#" class="forgot-password pull-right">Forgot your Password?</a>
+						<div class="form-group">
+							<label asp-for="ConfirmPassword" class="info-title" for="exampleInputEmail1">Confirm Password <span>*</span></label>
+							<input asp-for="ConfirmPassword" type="password" class="form-control unicase-form-control text-input" id="exampleInputEmail1">
+							<span asp-validation-for="ConfirmPassword" class="text-danger"></span>
 						</div>
-
-						<button type="submit" class="btn-upper btn btn-primary checkout-page-button">Login</button>
-						<a href="/account/register" class="forgot-password pull-right">Don't have account? Register Now?</a>
-
+						<button type="submit" class="btn-upper btn btn-primary checkout-page-button">Sign Up</button>
 					</form>
 				</div>
-				<!-- Sign-in -->
 			</div><!-- /.row -->
 		</div><!-- /.sigin-in-->
 		<!-- ============================================== BRANDS CAROUSEL ============================================== -->

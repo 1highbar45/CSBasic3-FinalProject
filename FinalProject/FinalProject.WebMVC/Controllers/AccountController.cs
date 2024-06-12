@@ -25,7 +25,6 @@ namespace FinalProject.WebMVC.Controllers
 		[AllowAnonymous]
 		public IActionResult Login(string ReturnUrl = "")
 		{
-			_signInManager.SignOutAsync();
 			TempData["ReturnUrl"] = ReturnUrl;
 			return View();
 		}
@@ -52,7 +51,7 @@ namespace FinalProject.WebMVC.Controllers
 					}
 					else
 					{
-						return Redirect("/account/users");
+						return Redirect("/");
 					}
 
 				}
@@ -70,6 +69,48 @@ namespace FinalProject.WebMVC.Controllers
 		public IActionResult AccessDenied()
 		{
 			return View();
+		}
+
+		[AllowAnonymous]
+		public IActionResult Register(string ReturnUrl = "")
+		{
+			TempData["ReturnUrl"] = ReturnUrl;
+			return View();
+		}
+
+		[AllowAnonymous]
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<IActionResult> Register(RegisterViewModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
+			var user = new IdentityUser
+			{
+				UserName = model.UserName,
+				Email = model.Email,
+			};
+			var userResult = await _userManager.CreateAsync(user, model.Password);
+			if (userResult.Succeeded)
+			{
+				var roleResult = await _userManager.AddToRoleAsync(user, "user");
+				if (roleResult.Succeeded)
+				{
+					await _signInManager.SignInAsync(user, false);
+					return Redirect("/");
+				}
+				else
+				{
+					await _userManager.DeleteAsync(user);
+					ModelState.AddModelError(string.Empty, GetErrorMessage(roleResult));
+					return View(model);
+				}
+			}
+
+			ModelState.AddModelError(string.Empty, GetErrorMessage(userResult));
+			return View(model);
 		}
 
 		#region Role

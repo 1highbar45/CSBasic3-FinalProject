@@ -30,7 +30,7 @@ $('#frm-customer-info').validate({
     messages: {
         FirstName:
         {
-            required: "you must input firt name",
+            required: "you must input first name",
         },
         LastName:
         {

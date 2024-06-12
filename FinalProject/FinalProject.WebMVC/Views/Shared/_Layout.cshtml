@@ -42,17 +42,20 @@
                 <div class="header-top-inner">
                     <div class="cnt-account">
                         <ul class="list-unstyled">
-                            <li class="myaccount"><a href="/account/users"><span>My Account</span></a></li>
+                            @if (!String.IsNullOrEmpty(@User.Identity.Name))
+                            {
+                                <li class="myaccount"><a href="/"><span>@User.Identity.Name</span></a></li>
+                            }
                             <li class="wishlist"><a href="#"><span>Wishlist</span></a></li>
                             <li class="header_cart hidden-xs"><a href="#"><span>My Cart</span></a></li>
                             <li class="check"><a href="#"><span>Checkout</span></a></li>
                             @if (!String.IsNullOrEmpty(@User.Identity.Name))
                             {
-                                <li><a href="#"><span>@User.Identity.Name</span></a></li>
+                                <li class="login"><a href="/account/logout"><span>Logout</span></a></li>
 
                             }else
                             {
-                                <li class="login"><a href="#"><span>Login</span></a></li>
+                                <li class="login"><a href="/account/login"><span>Login</span></a></li>
                             }
                         </ul>
                     </div>
@@ -72,7 +75,7 @@
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-3 logo-holder">
                         <!-- ============================================================= LOGO ============================================================= -->
-                        <div class="logo"> <a href="home.html"> <img src="~/Assets/images/logo.png" alt="logo"> </a> </div>
+                        <div class="logo"> <a href="/"> <img src="~/Assets/images/logo.png" alt="logo"> </a> </div>
                         <!-- /.logo -->
                         <!-- ============================================================= LOGO : END ============================================================= -->
                     </div>
