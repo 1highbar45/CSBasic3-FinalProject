@@ -51,6 +51,7 @@
                             <li class="check"><a href="#"><span>Checkout</span></a></li>
                             @if (!String.IsNullOrEmpty(@User.Identity.Name))
                             {
+                                <li class="check"><a href="/account/changepassword"><span>Change password</span></a></li>
                                 <li class="login"><a href="/account/logout"><span>Logout</span></a></li>
 
                             }else

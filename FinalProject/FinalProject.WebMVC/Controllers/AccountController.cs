@@ -113,6 +113,36 @@ namespace FinalProject.WebMVC.Controllers
 			return View(model);
 		}
 
+		public ActionResult ChangePassword()
+		{
+			return View();
+		}
+
+		[HttpPost]
+		[ValidateAntiForgeryToken]
+		public async Task<ActionResult> ChangePassword(ChangePasswordViewModel model)
+		{
+			if (!ModelState.IsValid)
+			{
+				return View(model);
+			}
+
+			var user = await _userManager.FindByNameAsync(User.Identity.Name);
+			if (user == null)
+			{
+				return RedirectToAction("Login", "Account");
+			}
+
+			var result = await _userManager.ChangePasswordAsync(user, model.OldPassword, model.NewPassword);
+			if (result.Succeeded)
+			{
+				await _signInManager.SignInAsync(user, isPersistent: false);
+				return RedirectToAction("Index", "Home");
+			}
+
+			return View(model);
+		}
+
 		#region Role
 
 		[Authorize(Roles = "admin")]

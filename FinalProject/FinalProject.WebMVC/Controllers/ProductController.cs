@@ -29,9 +29,13 @@ namespace FinalProject.WebMVC.Controllers
             return View(model);
         }
 
-        public IActionResult Detail()
+        public async Task<IActionResult> Detail(Guid Id)
 		{
-			return View();
+			var product = await _productService.GetProductDetail(Id);
+			if(product != null) {
+				return View(product);
+			}
+			return View(null);
 		}
 
 		public async Task<IActionResult> ProductListPartial([FromBody] ProductPage model)
