@@ -15,9 +15,11 @@
 
             <a class="btn default btn-xs purple" href="/" title="Update"> <span class="glyphicon glyphicon-edit"></span></a>
 
-            <a class="btn default btn-xs green" href="/" title="Watch Images"><span class="glyphicon glyphicon-list-alt"></span></a>
+            <a class="btn default btn-xs green" href="@item.ImageUrl" target="_blank" title="Watch Images"><span class="glyphicon glyphicon-list-alt"></span></a>
 
-            <a class="btn default btn-xs red" href="/" title="Delete">  <span class="glyphicon glyphicon-trash"></span></a>
+            <a asp-controller="AdminProduct" asp-action="Delete" asp-route-productId="@item.ProductId"
+               onclick="return confirm('Are you sure you want to delete @item.ProductName?')"
+            class="btn default btn-xs red" title="Delete">  <span class="glyphicon glyphicon-trash"></span></a>
 
         </td>
 

@@ -22,7 +22,18 @@ namespace FinalProject.WebMVC.Controllers
 			_signInManager = signInManager;
 		}
 
-		[AllowAnonymous]
+
+        public async Task<ActionResult> Index()
+        {
+			var user = await _userManager.GetUserAsync(User);
+            var roles = await _userManager.GetRolesAsync(user);
+			bool isInRole = await _userManager.IsInRoleAsync(user, "admin");
+			ViewBag.Roles = roles;
+			ViewBag.Admin = isInRole;
+            return View(user);
+        }
+
+        [AllowAnonymous]
 		public IActionResult Login(string ReturnUrl = "")
 		{
 			TempData["ReturnUrl"] = ReturnUrl;
@@ -113,7 +124,7 @@ namespace FinalProject.WebMVC.Controllers
 			return View(model);
 		}
 
-		public ActionResult ChangePassword()
+        public ActionResult ChangePassword()
 		{
 			return View();
 		}

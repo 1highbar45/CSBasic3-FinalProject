@@ -1,0 +1,171 @@
+﻿@model Microsoft.AspNetCore.Identity.IdentityUser;
+
+@{
+	var roles = ViewBag.Roles;
+}
+
+<div class="breadcrumb">
+	<div class="container">
+		<div class="breadcrumb-inner">
+			<ul class="list-inline list-unstyled">
+				<li><a href="#">Home</a></li>
+				<li class='active'>Account</li>
+			</ul>
+		</div><!-- /.breadcrumb-inner -->
+	</div><!-- /.container -->
+</div><!-- /.breadcrumb -->
+
+<div class="body-content">
+	<div class="container">
+		<div class="checkout-box ">
+			<div class="row">
+				<div class="col-xs-12 col-sm-9 col-md-9 rht-col">
+					<div class="panel-group checkout-steps" id="accordion">
+						<!-- checkout-step-01  -->
+						<div class="panel panel-default checkout-step-01">
+
+							<!-- panel-heading -->
+							<div class="panel-heading">
+								<h4 class="unicase-checkout-title">
+									<a class="" data-parent="#accordion">
+										<span>*</span>User Profile
+									</a>
+								</h4>
+							</div>
+							<!-- panel-heading -->
+
+							<div id="collapseOne" class="panel-collapse collapse in">
+
+								<!-- panel-body  -->
+								<div class="panel-body">
+									<div class="row">
+
+										<!-- guest-login -->
+										<div class="col-md-6 col-sm-6 already-registered-login">
+											<form class="register-form" role="form">
+												<div class="form-group">
+													<label class="info-title" for="exampleInputEmail1">User Name</label>
+													<input asp-for="UserName" type="text" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="">
+												</div>
+												<div class="form-group">
+													<label class="info-title" for="exampleInputEmail1">Email</label>
+													<input asp-for="Email" type="email" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="">
+												</div>
+												@if (roles != null)
+												{
+													@foreach (var item in roles)
+													{
+														<div class="form-group">
+															<label class="info-title" for="exampleInputEmail1">Role</label>
+															<input value="@item" class="form-control unicase-form-control text-input" id="exampleInputEmail1" placeholder="">
+														</div>
+													}
+												}
+												@* <button type="submit" class="btn-upper btn btn-primary checkout-page-button">Login</button> *@
+											</form>
+										</div>
+									</div>
+								</div>
+								<!-- panel-body  -->
+
+							</div><!-- row -->
+						</div>
+						<!-- checkout-step-01  -->
+					</div><!-- /.checkout-steps -->
+				</div>
+				<div class="col-xs-12 col-sm-3 col-md-3 sidebar">
+					<!-- checkout-progress-sidebar -->
+					<div class="checkout-progress-sidebar ">
+						<div class="panel-group">
+							<div class="panel panel-default">
+								<div class="panel-heading">
+									<h4 class="unicase-checkout-title">Settings</h4>
+								</div>
+								<div class="">
+									<ul class="nav nav-checkout-progress list-unstyled">
+										<li><a href="/account">Account info</a></li>
+										<li><a href="/account/changepassword">Change your password</a></li>
+										@if (ViewBag.Admin){
+											<li><a href="/account/users">Admin pages</a></li>
+										}
+										<li><a href="/checkout">Your Cart</a></li>
+									</ul>
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- checkout-progress-sidebar -->
+				</div>
+			</div><!-- /.row -->
+		</div><!-- /.checkout-box -->
+		<!-- ============================================== BRANDS CAROUSEL ============================================== -->
+		<div id="brands-carousel" class="logo-slider wow fadeInUp">
+
+			<div class="logo-slider-inner">
+				<div id="brand-slider" class="owl-carousel brand-slider custom-carousel owl-theme">
+					<div class="item m-t-15">
+						<a href="#" class="image">
+							<img data-echo="assets/images/brands/brand1.png" src="assets/images/blank.gif" alt="">
+						</a>
+					</div><!--/.item-->
+
+					<div class="item m-t-10">
+						<a href="#" class="image">
+							<img data-echo="assets/images/brands/brand2.png" src="assets/images/blank.gif" alt="">
+						</a>
+					</div><!--/.item-->
+
+					<div class="item">
+						<a href="#" class="image">
+							<img data-echo="assets/images/brands/brand3.png" src="assets/images/blank.gif" alt="">
+						</a>
+					</div><!--/.item-->
+
+					<div class="item">
+						<a href="#" class="image">
+							<img data-echo="assets/images/brands/brand4.png" src="assets/images/blank.gif" alt="">
+						</a>
+					</div><!--/.item-->
+
+					<div class="item">
+						<a href="#" class="image">
+							<img data-echo="assets/images/brands/brand5.png" src="assets/images/blank.gif" alt="">
+						</a>
+					</div><!--/.item-->
+
+					<div class="item">
+						<a href="#" class="image">
+							<img data-echo="assets/images/brands/brand6.png" src="assets/images/blank.gif" alt="">
+						</a>
+					</div><!--/.item-->
+
+					<div class="item">
+						<a href="#" class="image">
+							<img data-echo="assets/images/brands/brand2.png" src="assets/images/blank.gif" alt="">
+						</a>
+					</div><!--/.item-->
+
+					<div class="item">
+						<a href="#" class="image">
+							<img data-echo="assets/images/brands/brand4.png" src="assets/images/blank.gif" alt="">
+						</a>
+					</div><!--/.item-->
+
+					<div class="item">
+						<a href="#" class="image">
+							<img data-echo="assets/images/brands/brand1.png" src="assets/images/blank.gif" alt="">
+						</a>
+					</div><!--/.item-->
+
+					<div class="item">
+						<a href="#" class="image">
+							<img data-echo="assets/images/brands/brand5.png" src="assets/images/blank.gif" alt="">
+						</a>
+					</div><!--/.item-->
+				</div><!-- /.owl-carousel #logo-slider -->
+			</div><!-- /.logo-slider-inner -->
+
+		</div><!-- /.logo-slider -->
+		<!-- ============================================== BRANDS CAROUSEL : END ============================================== -->
+	</div><!-- /.container -->
+</div><!-- /.body-content -->

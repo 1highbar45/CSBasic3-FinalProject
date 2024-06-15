@@ -58,9 +58,9 @@ namespace FinalProject.WebMVC.Controllers
 
         }
 
-        public async Task<IActionResult> Delete(Guid productId)
+        public async Task<IActionResult> Delete(Guid ProductId)
         {
-            await _productService.DeleteProduct(productId);
+            await _productService.DeleteProduct(ProductId);
             return Redirect("/adminproduct");
         }
 

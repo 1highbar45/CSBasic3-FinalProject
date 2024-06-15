@@ -30,7 +30,54 @@ namespace FinalProject.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-        public async Task<GenericData<ProductViewModel>> GetProducts(ProductPage filter)
+		public async Task<GenericData<ProductViewModel>> Get7Products()
+        {
+			var data = new GenericData<ProductViewModel>();
+			var products = _productRepository.FindAll();
+			var categories = _categoryRepository.FindAll();
+
+			var result = (from p in products
+						  join c in categories
+						  on p.CategoryId equals c.Id
+						  select new ProductViewModel
+						  {
+							  ProductId = p.Id,
+							  ProductName = p.Name,
+							  Price = p.Price,
+							  DiscountPrice = p.DiscountPrice,
+							  CategoryName = c.Name,
+							  CategoryId = c.Id,
+						  });
+
+			// lấy ra số lượng product để tính số trang
+			data.Count = 7;
+
+			// lấy ra danh sách product ứng với PageIndex truyền vào (lúc đầu là 1)
+			var productViewModels = await result.Take(7).ToListAsync();
+
+			// lấy ra imageurl và rating
+			var images = _imageRepository.FindAll();
+			var reviews = _reviewRepository.FindAll();
+
+
+			foreach (var item in productViewModels)
+			{
+				var image = (await images.FirstOrDefaultAsync(s => s.ProductId == item.ProductId))?.ImageLink;
+				item.ImageUrl = string.IsNullOrEmpty(image) ? string.Empty : image;
+
+				var productReviews = reviews.Where(s => s.ProductId == item.ProductId);
+				if (productReviews != null && await productReviews.AnyAsync())
+				{
+					item.Rating = await productReviews.MaxAsync(s => s.Rating);
+				}
+			}
+
+			//gán danh sách product vào data
+			data.Data = productViewModels;
+			return data;
+		}
+
+		public async Task<GenericData<ProductViewModel>> GetProducts(ProductPage filter)
         {
             var data = new GenericData<ProductViewModel>();
             var products = _productRepository.FindAll();
@@ -215,6 +262,7 @@ namespace FinalProject.Application.Services
             if (product != null)
             {
                _productRepository.Delete(product);
+                await _unitOfWork.SaveChangeAsync();
             }
         }
     }

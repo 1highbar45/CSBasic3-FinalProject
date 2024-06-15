@@ -1,4 +1,7 @@
-﻿using FinalProject.WebMVC.Models;
+﻿using FinalProject.Application.Services;
+using FinalProject.Domain.Models.Products;
+using FinalProject.Domain.Services;
+using FinalProject.WebMVC.Models;
 using Microsoft.AspNetCore.Mvc;
 using System.Diagnostics;
 
@@ -7,10 +10,12 @@ namespace FinalProject.WebMVC.Controllers
 	public class HomeController : Controller
 	{
 		private readonly ILogger<HomeController> _logger;
+		private readonly IProductService _productService;
 
-		public HomeController(ILogger<HomeController> logger)
+		public HomeController(ILogger<HomeController> logger, IProductService productService)
 		{
 			_logger = logger;
+			_productService = productService;
 		}
 
 		public IActionResult Index()
@@ -26,6 +31,12 @@ namespace FinalProject.WebMVC.Controllers
         public IActionResult Privacy()
 		{
 			return View();
+		}
+
+		public async Task<IActionResult> HotDealPartial()
+		{
+			var result = await _productService.Get7Products();
+			return PartialView(result);
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]

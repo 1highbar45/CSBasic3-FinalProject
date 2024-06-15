@@ -44,14 +44,13 @@
                         <ul class="list-unstyled">
                             @if (!String.IsNullOrEmpty(@User.Identity.Name))
                             {
-                                <li class="myaccount"><a href="/"><span>@User.Identity.Name</span></a></li>
+                                <li class="myaccount"><a href="/account"><span>@User.Identity.Name</span></a></li>
                             }
-                            <li class="wishlist"><a href="#"><span>Wishlist</span></a></li>
+@*                             <li class="wishlist"><a href="#"><span>Wishlist</span></a></li>
                             <li class="header_cart hidden-xs"><a href="#"><span>My Cart</span></a></li>
-                            <li class="check"><a href="#"><span>Checkout</span></a></li>
+                            <li class="check"><a href="#"><span>Checkout</span></a></li> *@
                             @if (!String.IsNullOrEmpty(@User.Identity.Name))
                             {
-                                <li class="check"><a href="/account/changepassword"><span>Change password</span></a></li>
                                 <li class="login"><a href="/account/logout"><span>Logout</span></a></li>
 
                             }else
