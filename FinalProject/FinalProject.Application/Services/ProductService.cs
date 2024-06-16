@@ -5,6 +5,7 @@ using FinalProject.Domain.Models;
 using FinalProject.Domain.Models.Products;
 using FinalProject.Domain.Services;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace FinalProject.Application.Services
 {
@@ -30,51 +31,35 @@ namespace FinalProject.Application.Services
             _unitOfWork = unitOfWork;
         }
 
-		public async Task<GenericData<ProductViewModel>> Get7Products()
+        public async Task<GenericData<ProductViewModel>> GetHotDeal()
         {
-			var data = new GenericData<ProductViewModel>();
-			var products = _productRepository.FindAll();
-			var categories = _categoryRepository.FindAll();
+            var data = new GenericData<ProductViewModel>();
+            var products = _productRepository.FindAll();
 
-			var result = (from p in products
-						  join c in categories
-						  on p.CategoryId equals c.Id
-						  select new ProductViewModel
-						  {
-							  ProductId = p.Id,
-							  ProductName = p.Name,
-							  Price = p.Price,
-							  DiscountPrice = p.DiscountPrice,
-							  CategoryName = c.Name,
-							  CategoryId = c.Id,
-						  });
+            var result = products.Select(p => new ProductViewModel
+            {
+                ProductId = p.Id,
+                ProductName = p.Name,
+                Price = p.Price,
+                DiscountPrice = p.DiscountPrice,
+            });
 
-			// lấy ra số lượng product để tính số trang
-			data.Count = 7;
+            data.Count = 8;
 
-			// lấy ra danh sách product ứng với PageIndex truyền vào (lúc đầu là 1)
-			var productViewModels = await result.Take(7).ToListAsync();
+            var productViewModels = await result.Take(8).ToListAsync();
 
-			// lấy ra imageurl và rating
-			var images = _imageRepository.FindAll();
-			var reviews = _reviewRepository.FindAll();
-
+            // lấy ra imageurl và rating
+            var images = _imageRepository.FindAll();
 
 			foreach (var item in productViewModels)
 			{
 				var image = (await images.FirstOrDefaultAsync(s => s.ProductId == item.ProductId))?.ImageLink;
 				item.ImageUrl = string.IsNullOrEmpty(image) ? string.Empty : image;
-
-				var productReviews = reviews.Where(s => s.ProductId == item.ProductId);
-				if (productReviews != null && await productReviews.AnyAsync())
-				{
-					item.Rating = await productReviews.MaxAsync(s => s.Rating);
-				}
 			}
 
-			//gán danh sách product vào data
-			data.Data = productViewModels;
-			return data;
+            //gán danh sách product vào data
+            data.Data = productViewModels;
+            return data; 
 		}
 
 		public async Task<GenericData<ProductViewModel>> GetProducts(ProductPage filter)

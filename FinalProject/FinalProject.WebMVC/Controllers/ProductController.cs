@@ -38,7 +38,13 @@ namespace FinalProject.WebMVC.Controllers
 			return View(null);
 		}
 
-		public async Task<IActionResult> ProductListPartial([FromBody] ProductPage model)
+        public async Task<IActionResult> HotDealPartial()
+        {
+            var result = await _productService.GetHotDeal();
+            return PartialView(result);
+        }
+
+        public async Task<IActionResult> ProductListPartial([FromBody] ProductPage model)
 		{
 			var result = await _productService.GetProducts(model);
 			return PartialView(result);

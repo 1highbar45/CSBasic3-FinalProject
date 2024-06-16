@@ -6,8 +6,7 @@ namespace FinalProject.Domain.Services
     public interface IProductService
     {
         Task<GenericData<ProductViewModel>> GetProducts(ProductPage model);
-		Task<GenericData<ProductViewModel>> Get7Products();
-
+        Task<GenericData<ProductViewModel>> GetHotDeal();
 		Task<ProductDetailViewModel> GetProductDetail(Guid productId);
         Task CreateProduct(ProductCreateViewModel model);
         Task DeleteProduct(Guid productId);

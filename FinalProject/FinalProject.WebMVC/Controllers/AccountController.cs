@@ -23,7 +23,7 @@ namespace FinalProject.WebMVC.Controllers
 		}
 
 
-        public async Task<ActionResult> Index()
+        public async Task<IActionResult> Index()
         {
 			var user = await _userManager.GetUserAsync(User);
             var roles = await _userManager.GetRolesAsync(user);

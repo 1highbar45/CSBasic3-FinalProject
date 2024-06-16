@@ -18,9 +18,10 @@ namespace FinalProject.WebMVC.Controllers
 			_productService = productService;
 		}
 
-		public IActionResult Index()
+		public async Task<ActionResult> Index()
 		{
-			return View();
+            var result = await _productService.GetHotDeal();
+            return View(result);
 		}
 
         public IActionResult Shop()
@@ -31,12 +32,6 @@ namespace FinalProject.WebMVC.Controllers
         public IActionResult Privacy()
 		{
 			return View();
-		}
-
-		public async Task<IActionResult> HotDealPartial()
-		{
-			var result = await _productService.Get7Products();
-			return PartialView(result);
 		}
 
 		[ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
